@@ -27,7 +27,10 @@ class CommandOne:
 
     def execute(self, program_state, verbose = False):
         if verbose:
-            print("{}: {} -> ".format(self.get_name(), program_state.get_value()), end = '')
+            print("{}: value={} -> value=".format(
+                self.get_name(),
+                program_state.get_value()),
+                end = '')
 
         program_state.set_value(1)
 
@@ -42,7 +45,10 @@ class CommandZero:
 
     def execute(self, program_state, verbose = False):
         if verbose:
-            print("{}: {} -> ".format(self.get_name(), program_state.get_value()), end = '')
+            print("{}: value={} -> value=".format(
+                self.get_name(),
+                program_state.get_value()),
+                end = '')
 
         program_state.set_value(0)
 
@@ -57,9 +63,12 @@ class CommandLoad:
 
     def execute(self, program_state, verbose = False):
         if verbose:
-            print("{}: {} -> ".format(self.get_name(), program_state.get_value()), end = '')
+            print("{}: value={} -> value=".format(
+                self.get_name(),
+                program_state.get_value()),
+                end = '')
 
-        program_state.set_value(program_state.get_memval())
+        program_state.set_value(program_state.get_memory_value())
 
         if verbose:
             print(program_state.get_value())
@@ -72,12 +81,15 @@ class CommandStore:
 
     def execute(self, program_state, verbose = False):
         if verbose:
-            print("{}: {} -> ".format(self.get_name(), program_state.get_memval()), end = '')
+            print("{}: memory_value={} -> memory_value=".format(
+                self.get_name(),
+                program_state.get_memory_value()),
+                end = '')
 
         program_state.set_memval(program_state.get_value())
 
         if verbose:
-            print(program_state.get_memval())
+            print(program_state.get_memory_value())
 
 class CommandPAdd:
     """ Adds value to the current program position pointer (a jump). """
@@ -87,7 +99,11 @@ class CommandPAdd:
 
     def execute(self, program_state, verbose = False):
         if verbose:
-            print("{}: p={} + v={} -> p=".format(self.get_name(), program_state.get_program_position(), program_state.get_value()), end = '')
+            print("{}: value={}, program_position={}-> program_position=".format(
+                self.get_name(),
+                program_state.get_value(),
+                program_state.get_program_position()),
+                end = '')
 
         program_state.set_program_position(program_state.get_program_position() + program_state.get_value())
 
@@ -102,7 +118,11 @@ class CommandDAdd:
 
     def execute(self, program_state, verbose = False):
         if verbose:
-            print("{}: m={} + v={} -> m=".format(self.get_name(), program_state.get_memory_position(), program_state.get_value()), end = '')
+            print("{}: value={}, memory_position={}-> memory_position=".format(
+                self.get_name(),
+                program_state.get_value(),
+                program_state.get_memory_position()),
+                end = '')
 
         program_state.set_memory_position(program_state.get_memory_position() + program_state.get_value())
 
@@ -117,10 +137,14 @@ class CommandLogic:
 
     def execute(self, program_state, verbose = False):
         value = 1 if program_state.get_value() != 0 else 0
-        memval = 1 if program_state.get_memval() != 0 else 0
+        memval = 1 if program_state.get_memory_value() != 0 else 0
 
         if verbose:
-            print("{}: v={} and m={} -> v=".format(self.get_name(), value, memval), end = '')
+            print("{}: value={}, memory_position={} -> value=".format(
+                self.get_name(),
+                program_state.get_value(),
+                program_state.get_memory_value()),
+                end = '')
 
         program_state.set_value(value * memval)
 
@@ -135,9 +159,13 @@ class CommandIf:
 
     def execute(self, program_state, verbose = False):
         if verbose:
-            print("{}: m={}, p={} -> p=".format(self.get_name(), program_state.get_memval(), program_state.get_program_position()), end = '')
+            print("{}: value={}, memory_value={}, program_position={} -> program_position=".format(self.get_name(),
+                program_state.get_value(),
+                program_state.get_memory_value(),
+                program_state.get_program_position()),
+                end = '')
 
-        if program_state.get_memval() != 0:
+        if program_state.get_memory_value() != 0:
             program_state.set_program_position(program_state.get_program_position() + program_state.get_value())
 
         if verbose:
@@ -151,16 +179,18 @@ class CommandIntIO:
 
     def execute(self, program_state, verbose = False):
         if verbose:
-            print("{}: v={}, m={} -> ".format(self.get_name(), program_state.get_value(), program_state.get_memval()), end = '')
+            print("{}: value={}, memory_value={} -> memory_value=".format(
+                self.get_name(),
+                program_state.get_value(),
+                program_state.get_memory_value()),
+                end = '')
 
         if program_state.get_value() == 0:
             program_state.set_memval(int(input("")))
-            if verbose:
-                print("m={}".format(program_state.get_memval()))
         else:
             if verbose:
                 print("Print")
-            print(int(program_state.get_memval()))
+            print(int(program_state.get_memory_value()))
 
 class CommandAscIO:
     """ If value is 0, set memval to ASCII character read from stdin. Otherwise print memval to stdout as an ASCII character. """
@@ -170,16 +200,17 @@ class CommandAscIO:
 
     def execute(self, program_state, verbose = False):
         if verbose:
-            print("{}: v={}, m={} -> ".format(self.get_name(), program_state.get_value(), program_state.get_memval()), end = '')
+            print("{}: value={}, memory_value={} -> memory_value=".format(
+                self.get_name(),
+                program_state.get_value(),
+                program_state.get_memory_value()), end = '')
 
         if program_state.get_value() == 0:
             program_state.set_memval(ord(input("")))
-            if verbose:
-                print("m={}".format(program_state.get_memval()))
         else:
             if verbose:
                 print("Print")
-            print(chr(program_state.get_memval()))
+            print(chr(program_state.get_memory_value()))
 
 class CommandAdd:
     """ Sets value to value plus memval. """
@@ -189,9 +220,13 @@ class CommandAdd:
 
     def execute(self, program_state, verbose = False):
         if verbose:
-            print("{}: v={} + m={} -> v=".format(self.get_name(), program_state.get_value(), program_state.get_memval()), end = '')
+            print("{}: value={}, memory_value={} -> value=".format(
+                self.get_name(),
+                program_state.get_value(),
+                program_state.get_memory_value()),
+                end = '')
 
-        program_state.set_value(program_state.get_value() + program_state.get_memval())
+        program_state.set_value(program_state.get_value() + program_state.get_memory_value())
 
         if verbose:
             print(program_state.get_value())
@@ -204,9 +239,13 @@ class CommandMult:
 
     def execute(self, program_state, verbose = False):
         if verbose:
-            print("{}: v={} + m={} -> v=".format(self.get_name(), program_state.get_value(), program_state.get_memval()), end = '')
+            print("{}: value={}, memory_value={} -> value=".format(
+                self.get_name(),
+                program_state.get_value(),
+                program_state.get_memory_value()),
+                end = '')
 
-        program_state.set_value(program_state.get_value() * program_state.get_memval())
+        program_state.set_value(program_state.get_value() * program_state.get_memory_value())
 
         if verbose:
             print(program_state.get_value())
@@ -219,9 +258,13 @@ class CommandDiv:
 
     def execute(self, program_state, verbose = False):
         if verbose:
-            print("{}: v={} + m={} -> v=".format(self.get_name(), program_state.get_value(), program_state.get_memval()), end = '')
+            print("{}: value={}, memory_value={} -> value=".format(
+                self.get_name(),
+                program_state.get_value(),
+                program_state.get_memory_value()),
+                end = '')
 
-        program_state.set_value(program_state.get_value() // program_state.get_memval())
+        program_state.set_value(program_state.get_value() // program_state.get_memory_value())
 
         if verbose:
             print(program_state.get_value())
@@ -234,9 +277,13 @@ class CommandLess:
 
     def execute(self, program_state, verbose = False):
         if verbose:
-            print("{}: v={}, m={} -> v=".format(self.get_name(), program_state.get_value(), program_state.get_memval()), end = '')
+            print("{}: value={}, memory_value={} -> value=".format(
+                self.get_name(),
+                program_state.get_value(),
+                program_state.get_memory_value()),
+                end = '')
 
-        program_state.set_value(1 if program_state.get_value() < program_state.get_memval() else 0)
+        program_state.set_value(1 if program_state.get_value() < program_state.get_memory_value() else 0)
 
         if verbose:
             print(program_state.get_value())
@@ -249,9 +296,13 @@ class CommandGreater:
 
     def execute(self, program_state, verbose = False):
         if verbose:
-            print("{}: v={}, m={} -> {}".format(self.get_name(), program_state.get_value(), program_state.get_memval()), end = '')
+            print("{}: value={}, memory_value={} -> value={}".format(
+                self.get_name(),
+                program_state.get_value(),
+                program_state.get_memory_value()),
+                end = '')
 
-        program_state.set_value(1 if program_state.get_value() > program_state.get_memval() else 0)
+        program_state.set_value(1 if program_state.get_value() > program_state.get_memory_value() else 0)
 
         if verbose:
             print(program_state.get_value())
@@ -264,9 +315,13 @@ class CommandEqual:
 
     def execute(self, program_state, verbose = False):
         if verbose:
-            print("{}: v={}, m={} -> {}".format(self.get_name(), program_state.get_value(), program_state.get_memval()), end = '')
+            print("{}: value={}, memory_value={} -> value{}".format(
+                self.get_name(),
+                program_state.get_value(),
+                program_state.get_memory_value()),
+                end = '')
 
-        program_state.set_value(1 if program_state.get_value() == program_state.get_memval() else 0)
+        program_state.set_value(1 if program_state.get_value() == program_state.get_memory_value() else 0)
 
         if verbose:
             print(program_state.get_value())
@@ -279,7 +334,10 @@ class CommandNot:
 
     def execute(self, program_state, verbose = False):
         if verbose:
-            print("{}: {} -> ".format(self.get_name(), program_state.get_value()), end = '')
+            print("{}: value={} -> value=".format(
+                self.get_name(),
+                program_state.get_value()),
+                end = '')
 
         program_state.set_value(0 if program_state.get_value() != 0 else 1)
 
@@ -294,7 +352,10 @@ class CommandNeg:
 
     def execute(self, program_state, verbose = False):
         if verbose:
-            print("{}: {} -> ".format(self.get_name(), program_state.get_value()))
+            print("{}: value{} -> value".format(
+                self.get_name(),
+                program_state.get_value()),
+                end = '')
 
         program_state.set_value(-program_state.get_value())
 

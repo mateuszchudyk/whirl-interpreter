@@ -19,7 +19,7 @@ class Program:
     def set_value(self, value):
         self.rings[self.active_ring].set_value(value)
 
-    def get_memval(self):
+    def get_memory_value(self):
         return self.memory.get(self.memory_position, 0)
 
     def set_memval(self, value):
@@ -37,6 +37,12 @@ class Program:
     def set_memory_position(self, position):
         self.memory_position = position
 
+    def __ring_name(self, ring):
+        return "Operations" if ring == 0 else "Mathematics"
+
+    def __ring_direction_name(self, direction):
+        return "clockwise" if direction == 1 else "counter-clockwise"
+
     def run(self, debug_dump = False, debug_verbose = False):
         previous_zeros = 0
         while self.program_position >= 0 and self.program_position < len(self.program):
@@ -44,10 +50,10 @@ class Program:
             self.program_position += 1
             if command == '1':
                 if debug_verbose:
-                    print("Ring {} rotate: {} + {} -> ".format(
-                        self.active_ring,
-                        self.rings[self.active_ring].get_operation().get_name(),
-                        self.rings[self.active_ring].get_direction()),
+                    print("Ring '{}' rotate {}: {} -> ".format(
+                        self.__ring_name(self.active_ring),
+                        self.__ring_direction_name(self.rings[self.active_ring].get_direction()),
+                        self.rings[self.active_ring].get_operation().get_name()),
                         end = '')
 
                 self.rings[self.active_ring].rotate()
@@ -58,26 +64,28 @@ class Program:
                 previous_zeros = 0
             else:
                 if debug_verbose:
-                    print("Ring {} change direction: {} -> ".format(
-                        self.active_ring,
-                        self.rings[self.active_ring].get_direction()),
+                    print("Ring '{}' change direction: {} -> ".format(
+                        self.__ring_name(self.active_ring),
+                        self.__ring_direction_name(self.rings[self.active_ring].get_direction())),
                         end = '')
 
                 self.rings[self.active_ring].change_direction()
 
                 if debug_verbose:
-                    print(self.rings[self.active_ring].get_direction())
+                    print(self.__ring_direction_name(self.rings[self.active_ring].get_direction()))
 
                 if previous_zeros % 2 == 1:
+                    if debug_verbose:
+                        print("Execute ", end = '')
                     self.rings[self.active_ring].get_operation().execute(self, debug_verbose)
 
                     if debug_verbose:
-                        print("Change active ring: {} -> ".format(self.active_ring), end = '')
+                        print("Change active ring: {} -> ".format(self.__ring_name(self.active_ring)), end = '')
 
                     self.active_ring = (self.active_ring + 1) % len(self.rings)
 
                     if debug_verbose:
-                        print(self.active_ring)
+                        print(self.__ring_name(self.active_ring))
 
                 previous_zeros += 1
 
