@@ -2,6 +2,9 @@
 
 ## [Unreleased]
 
+### Added
+- examples: hello_world, add_two_number, fibonacci
+
 ### Fixed
 - treat all source characters that are not 0 or 1 as comments
 

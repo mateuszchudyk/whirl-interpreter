@@ -22,6 +22,6 @@ During loading source code:
 
 ## License
 
-[MIT]
+All files except examples are under [MIT] license. Examples have specify its license and author in a comment at the beginning of file.
 
 [MIT]: LICENSE
