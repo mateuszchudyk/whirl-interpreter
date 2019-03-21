@@ -159,7 +159,8 @@ class CommandIf:
 
     def execute(self, program_state, verbose = False):
         if verbose:
-            print("{}: value={}, memory_value={}, program_position={} -> program_position=".format(self.get_name(),
+            print("{}: value={}, memory_value={}, program_position={} -> program_position=".format(
+                self.get_name(),
                 program_state.get_value(),
                 program_state.get_memory_value(),
                 program_state.get_program_position()),
@@ -296,7 +297,7 @@ class CommandGreater:
 
     def execute(self, program_state, verbose = False):
         if verbose:
-            print("{}: value={}, memory_value={} -> value={}".format(
+            print("{}: value={}, memory_value={} -> value=".format(
                 self.get_name(),
                 program_state.get_value(),
                 program_state.get_memory_value()),
@@ -315,7 +316,7 @@ class CommandEqual:
 
     def execute(self, program_state, verbose = False):
         if verbose:
-            print("{}: value={}, memory_value={} -> value{}".format(
+            print("{}: value={}, memory_value={} -> value".format(
                 self.get_name(),
                 program_state.get_value(),
                 program_state.get_memory_value()),

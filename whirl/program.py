@@ -44,6 +44,9 @@ class Program:
         return "clockwise" if direction == 1 else "counter-clockwise"
 
     def run(self, debug_dump = False, debug_verbose = False):
+        if not self.program:
+            return
+
         previous_zeros = 0
         while self.program_position >= 0 and self.program_position < len(self.program):
             command = self.program[self.program_position]
@@ -93,6 +96,9 @@ class Program:
                 self.dump()
 
     def dump(self):
+        if not self.program:
+            return
+
         print("================================================================================")
         print("Whirl Program Dump")
         print("================================================================================")
