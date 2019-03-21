@@ -16,6 +16,10 @@ Options:
   --verbose  - execute program in verbose mode (display information about every step)
 ```
 
+During loading source code:
+  - all lines starts with `//` are removed
+  - all characters that are not `0` or `1` are removed
+
 ## License
 
 [MIT]
