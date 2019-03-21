@@ -20,6 +20,8 @@ During loading source code:
   - all lines starts with `//` are removed
   - all characters that are not `0` or `1` are removed
 
+You can find more details about `Whirl` language at http://bigzaphod.github.io/Whirl/.
+
 ## License
 
 All files except examples are under [MIT] license. Examples have specify its license and author in a comment at the beginning of file.
