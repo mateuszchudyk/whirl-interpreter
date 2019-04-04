@@ -5,7 +5,7 @@
 
 ## Overview
 
-Simple `Whirl` programming language interpreter written in Python. To execute program, use script `whirl-interpreter.py`.
+Simple interpreter of `Whirl` programming language written in Python. To execute program, use script `whirl-interpreter.py`.
 
 ```
 >> python3 whirl-interpreter.py --help
@@ -16,14 +16,14 @@ Options:
   --verbose  - execute program in verbose mode (display information about every step)
 ```
 
-During loading source code:
-  - all lines starts with `//` are removed
-  - all characters that are not `0` or `1` are removed
+Following rules define comments in source code:
+  - all lines starts with `//`
+  - all characters that are not `0` or `1`
 
 You can find more details about `Whirl` language at http://bigzaphod.github.io/Whirl/.
 
 ## License
 
-All files except examples are under [MIT] license. Examples have specify its license and author in a comment at the beginning of file.
+All files except examples are under [MIT] license. Each example have specify its license and author in a comment at the beginning of the file.
 
 [MIT]: LICENSE
