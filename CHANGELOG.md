@@ -1,6 +1,6 @@
 # Change Log
 
-## [Unreleased]
+## [0.1.1] (2019-04-04)
 
 ### Added
 - examples: hello_world, add_two_number, fibonacci
@@ -16,5 +16,6 @@ Simple `Whirl` programming language interpreter written in Python. Support for:
 
 
 
-[Unreleased]: https://github.com/mateuszchudyk/whirl-interpreter/compare/v0.1.0...HEAD
+[Unreleased]: https://github.com/mateuszchudyk/whirl-interpreter/compare/v0.1.1...HEAD
+[0.1.1]: https://github.com/mateuszchudyk/whirl-interpreter/compare/v0.1.0...v0.1.1
 [0.1.0]: https://github.com/mateuszchudyk/whirl-interpreter/commit/b0398161be93985274869370454491fb3d0e843f
